@@ -18,6 +18,11 @@ public class Topic {
     protected Topic() {
     }
 
+    public Topic( String name, Collection<Post> posts) {
+        this.name = name;
+        this.posts = posts;
+    }
+
     public Topic(String name) {
         this.name = name;
     }

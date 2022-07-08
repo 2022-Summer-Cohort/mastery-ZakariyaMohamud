@@ -1,29 +1,44 @@
 package com.survivingcodingbootcamp.blog.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Entity
 public class Post {
     @Id
     @GeneratedValue
     private Long id;
+    private String author;
     private String title;
     @ManyToOne
     private Topic topic;
     @Lob
     private String content;
+    @ManyToMany
+    private Collection<Hashtag> hashtags;
 
-    protected Post() {
-    }
 
-    public Post(String title, Topic topic, String content) {
+
+    public Post(String author, String title, Topic topic, String content, Hashtag ...hashtags) {
+        this.author = author;
         this.title = title;
         this.topic = topic;
         this.content = content;
+        this.hashtags = Arrays.asList(hashtags);
+    }
+    public Post() {
+    }
+    public void addHashtag(Hashtag hashtag){
+        hashtags.add(hashtag);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     public String getTitle() {
@@ -34,6 +49,10 @@ public class Post {
         return topic;
     }
 
+    public Collection<Hashtag> getHashtags() {
+        return hashtags;
+    }
+
     public String getContent() {
         return content;
     }
@@ -42,11 +61,15 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
+                ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", topic=" + topic +
                 ", content='" + content + '\'' +
+                ", hashtags=" + hashtags +
                 '}';
     }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -68,5 +91,8 @@ public class Post {
         result = 31 * result + (topic != null ? topic.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;
+    }
+
+    public void addPost(Post post) {
     }
 }
